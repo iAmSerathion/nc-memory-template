@@ -49,15 +49,25 @@ way). The journal is free-form, one file per day.
 ## How writing works
 
 ```mermaid
-flowchart LR
-  H["agent on the host"] -->|"nc memory add --project P"| C["~/.nc/memory"]
-  T["agent in an nc-work task"] -->|"nc memory add"| MB["mailbox"]
-  MB --> B["broker on the host"]
-  B -->|"nc memory apply --broker, project from the task record"| C
-  T -->|"no broker"| OB["outbox"]
-  OB -->|"nc-work memory-apply"| C
-  C -->|"pull --rebase, commit, push"| R["your private memory repo"]
-  B -->|"refresh"| V["read-only view in the task"]
+flowchart TB
+  T["agent in<br/>an nc-work task"]
+  MB["mailbox"]
+  OB["outbox"]
+  V["read-only view<br/>in the task"]
+  subgraph host["host"]
+    B["broker"]
+    C["~/.nc/memory"]
+    H["agent"]
+  end
+  R["your private<br/>memory repo"]
+  T -->|"nc memory add"| MB
+  T -->|"no broker"| OB
+  MB --> B
+  B -->|"refresh"| V
+  B -->|"nc memory apply<br/>--broker"| C
+  OB -->|"nc-work<br/>memory-apply"| C
+  H -->|"nc memory add<br/>--project P"| C
+  C -->|"pull --rebase,<br/>commit, push"| R
 ```
 
 - **On the host**, `nc memory add --project <name> "<note>"` runs `git pull --rebase`, writes the note into
