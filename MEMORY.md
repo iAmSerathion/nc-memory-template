@@ -10,7 +10,7 @@ Rules for writing: `README.md` and skill `memory`.
 
 - `global/tools.md` – tools and versions that apply everywhere
 - `global/conventions.md` – way of working across all projects
-- `projects/<project>.md` – knowledge per project; the name is the nc-work profile id
+- `projects/<project>.md` – knowledge per project; the name is the project's nc-work profile id (or a name of your own for host-only projects)
 - `journal/YYYY-MM-DD.md` – what was decided and done (only on the host, not in a task)
 
 ## Projects
